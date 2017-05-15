@@ -1,0 +1,109 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, mathtools, verbatim}
+\usepackage{pgfplots,pgfplotstable,booktabs,array,colortbl}
+\pgfplotstableset{% global config, for example in the preamble
+  every head row/.style={before row=\toprule,after row=\midrule},
+  every last row/.style={after row=\bottomrule},
+  fixed,precision=2,
+}
+\usepackage[margin=0.5in]{geometry}
+\setlength{\parindent}{0pt}
+\renewcommand{\t}[1]{\text{#1}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\sumx}[2]{\sum\limits_{#1}^{#2}}
+\newcommand{\ord}{\text{ord}}
+\newcommand{\frp}{\text{FRP}}
+\newcommand{\R}{\Rightarrow\,}
+\newcommand{\B}[1]{\textbf{#1}}
+\newcommand{\I}{\bigcap}
+\newcommand{\U}{\bigcup}
+\newcommand{\V}{\vert}
+\newcommand{\F}[1]{\lfloor#1\rfloor}
+\renewcommand{\t}[1]{\text{#1}}
+\newcommand{\lra}[1]{\langle#1\rangle}
+\newcommand{\len}[1]{\vert#1\vert}
+\newcommand{\num}{\text{num}}
+\title{Combinatorial Game Theory Ideas}
+\author{Kartik Sabharwal}
+\begin{document}
+\maketitle
+\section{Five After Zero}
+\subsection{Motivation}
+Let $N(i)$ denote the nimber of the game with $i$ pins, where $i > 0$. \\
+It so happens that for any $i$ such that $N(i) = 0$, $N(i + 1) = 5$. \\
+\subsection{Patterns}
+For the purposes of this section, we can turn this observation into a claim. \\
+What would we need to show to prove the claim?
+\begin{enumerate}
+  \item we can derive a state s from $i$ such that $N(s) = 0$
+  \item we can derive a state s from $i$ such that $N(s) = 1$
+  \item we can derive a state s from $i$ such that $N(s) = 2$
+  \item we can derive a state s from $i$ such that $N(s) = 3$
+  \item we can derive a state s from $i$ such that $N(s) = 4$
+  \item we can derive no state s from $i$ such that $N(s) = 5$
+\end{enumerate}
+So consider a number $i$ such that $N(i) = 0$. We want to show that
+$i+1$ satisfies properties 1 through 6. \\
+Is there a pattern in how situations where $N(n) = 5$ achieve states
+that satisfy properties 1 through 5 above?
+\begin{center}
+\begin{tabular}{c|c c c c c} 
+    & 0 & 1 & 2 & 3 & 4 \\ 
+ \hline
+ 5  & \verb|4|  & \verb|2.2| & \verb|2| & \verb|3| & \verb|3.1| \\ 
+ 9  & \verb|8|  & \verb|6| & \verb|1.7,2+4| & \verb|7| & \verb|4.4,1+5| \\ 
+ 13 & \verb|12| & \verb|4+6| & \verb|2+8| & \verb|6.6| & \verb|10,4.8,1+9| \\ 
+ 17 & \verb|16| & \verb|6+8| & \verb|2+12,8.8| & \verb|6.10| 
+    & \verb|1+13,3+11,4+10| \\ 
+ 23 & \verb|22| & \verb|?| & \verb|9+11| & \verb|21| & \verb|20| \\ 
+\end{tabular}
+\end{center}
+\section{Record-breaking Nimbers?}
+Also notice that 
+$\{i : N(i) = \max\limits_{j \in [i]}(N(j))\} = \{1,2,3,5,11,19\}$
+which may mean that if a given number of pins corresponds to a nimber
+higher than the ones before it, the number is likely to be prime. \\
+\section{Nimber-Pin Graph}
+\pgfplotstabletypeset[
+  columns/freq/.style={column name=Pins},
+  columns/conc/.style={column name=Variant},
+  columns/lino/.style={column name=Original},
+]{nimberTable.txt}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    yscale=0.5,
+    grid=both,
+    width=\linewidth,
+    xtick=data,
+    xlabel={Pins},
+    ylabel=Nimber,
+    legend pos=north west,
+    legend entries={Variant,Original},
+    ]
+  \addplot table [x=pins,y=vari] {nimberTable.txt};
+  \addplot table [x=pins,y=orig] {nimberTable.txt};
+\end{axis}
+\end{tikzpicture}
+\end{figure}
+\section{Expanded Nimber Graph}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    yscale=0.5,
+    grid=both,
+    width=\linewidth,
+    % xtick=data,
+    xlabel={Pins},
+    ylabel=Nimber,
+    legend pos=north west,
+    legend entries={Variant},
+    ]
+\addplot[only marks] table [x=pins,y=vari] {expandedTable.txt};
+\end{axis}
+\end{tikzpicture}
+\end{figure}
+\end{document}

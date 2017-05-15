@@ -1,0 +1,59 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, mathtools, verbatim}
+\usepackage[margin=0.5in]{geometry}
+\setlength{\parindent}{0pt}
+\renewcommand{\t}[1]{\text{#1}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\sumx}[3]{\sum\limits_{#1}^{#2}#3}
+\newcommand{\ord}{\text{ord}}
+\newcommand{\frp}{\text{FRP}}
+\newcommand{\R}{\Rightarrow}
+\newcommand{\B}[1]{\textbf{#1}}
+\newcommand{\I}{\bigcap}
+\newcommand{\U}{\bigcup}
+\newcommand{\V}{\vert}
+\newcommand{\F}[1]{\lfloor #1\rfloor}
+\begin{document}
+\begin{center}
+21-499 HW1 \\
+Kartik Sabharwal (ksabharw)
+\end{center}
+\B{Problem 1} \\
+I assume that this game has two players. \\
+Note that this game definitely has to end in one of the players winning because there has to be \textit{some} player who takes away the last square of chocolate. \\
+Also, if there are $n\times k$ squares in the bar of chocolate, and the minimum possible number of squares (i.e. one square) is removed every turn, there can be a maximum of $nk$ moves played before some player wins. \\
+So at the beginning of the game either player one has a winning strategy or player two has a winning strategy. We will use contradiction to show that if player two ($P2$) has a winning strategy so does player one ($P1$). \\
+AFSOC $P2$ has a winning strategy from the start position \\
+In this case $P1$ makes a \textit{dummy} move to coerce the first move that is part of $P2$'s winning strategy. A good example of such a dummy move is for $P1$ to remove the square at the top right of the chocolate bar. Choosing this square definitely cannot be a part of $P2$'s winning strategy because \textit{any} move by $P1$ would have removed that top right square. Notice that if $n=k=1$ making such a move (also the only possible move) will result in $P1$ losing the game so she will always lose if $n=k=1$. \\
+After $P1$ makes the dummy move, $P2$ will have to pick a square that is below and/or to the left of the square that $P1$ chose for her move, according to $P2$'s winning strategy. \\
+Observe that it was possible for $P1$, in her turn, to have chosen the square that $P2$ chose in her turn instead of performing the dummy move. If that happened, after $P1$'s turn it would have been $P1$ in the 'winning position' instead of $P2$. \\
+So, we have shown that if a winning strategy exists for $P2$ then a winning strategy exists for $P1$ as well, which is a contradiction. \\
+Our assumption that $P2$ has a winning strategy was incorrect, implying that $P1$ \textit{always} has a winning strategy.
+
+\bigskip
+\B{Problem 2} \\
+Let player one be $P1$ and let player two be $P2$. \\
+$P1$'s first move will be in the center mini-cube \\
+Then, $P2$'s first move must be in one of the cubes surrounding the center mini-cube. Consider the face of the mega-cube in which $P2$ has played. Here, by \textit{face} I mean a set of nine mini-cubes which make up one `side' of the mega-cube. There is an overlap of mini-cubes between faces, so $P1$ can resolve the conflict however she sees fit.
+
+\medskip
+CASE I: $P2$ has played on an `edge' mini-cube \\
+Then, $P1$ should play on the `central' mini-cube in the same face as the one in which $P2$ played her first move. \\
+After this, $P2$ will have to play her second move in the central mini-cube in the face opposite to the one in which she played her first move in order to block $P1$ from winning in her next move. \\
+Subsequently, $P1$ should play her third move in a mini-cube that is either directly above, below, left or right of the central mini-cube in which she made her second move (if left and right are free, play one of those. If top and bottom are free, play one of those. At least one pair will be free). At this point she realizes that in her next move she can either complete one row within the current face or complete one row diagonally through the center. \\
+$P2$ can only block one of two of those possible win scenarios, and so $P1$ is guaranteed to win by her fourth move.
+
+\medskip
+CASE II: $P2$ has played on a `central' mini-cube \\
+Then, $P1$ should choose any one of the four central mini-cubes that are not directly opposite the one in which $P2$ played her first move. \\
+$P2$ will then have no choice but to block $P1$ from winning in her next move, by playing in the central mini-cube opposite the one in which $P1$ made her second move. \\
+Subsequently, $P1$ should play her third move in a mini-cube that is either directly above, below, left or right of the central mini-cube in which she made her second move. At this point she realizes that in her next move she can either complete one row within the current face or complete one row diagonally through the center. \\
+$P2$ can only block one of two of those possible win scenarios, and so $P1$ is guaranteed to win by her fourth move.
+
+\medskip
+KEY: \\
+`center' mini-cube: no exposed faces \\
+`central' mini-cube: 1 exposed face \\
+`edge' mini-cube: 2 or 3 exposed faces
+ 
+\end{document}

@@ -1,0 +1,463 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, mathtools, verbatim, nicefrac}
+\usepackage[margin=0.5in]{geometry}
+\setlength{\parindent}{0pt}
+\renewcommand{\t}[1]{\text{#1}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\sumx}[2]{\sum\limits_{#1}^{#2}}
+\newcommand{\ord}{\text{ord}}
+\newcommand{\frp}{\text{FRP}}
+\newcommand{\R}{\Rightarrow\,}
+\newcommand{\B}[1]{\textbf{#1}}
+\newcommand{\I}{\bigcap}
+\newcommand{\U}{\bigcup}
+\newcommand{\V}{\vert}
+\newcommand{\F}[1]{\lfloor#1\rfloor}
+\newcommand{\C}[1]{\lceil#1\rceil}
+\renewcommand{\t}[1]{\text{#1}}
+\newcommand{\lra}[1]{\langle#1\rangle}
+\newcommand{\len}[1]{\vert#1\vert}
+\newcommand{\num}{\text{num}}
+\newcommand{\game}[3]{\begin{array}{@{}*6r}(#1, & #2, & #3)\end{array}}
+\newcommand{\gcong}{\cong\:}
+\newcommand{\nfrc}[2]{\nicefrac{#1}{#2}}
+\begin{document}
+\begin{center}
+  21--499 \\
+  Kartik Sabharwal (ksabharw)
+\end{center}
+\paragraph{Three Point Situation, 1-Position Proof, Case 8}\mbox{}\\
+We want to prove the following proposition:
+\begin{equation*}
+  P(n) : \game{0}{6n + 8}{0} \gcong *1 \enspace \text{where} \enspace n \geq 0
+\end{equation*}
+We will use strong induction to prove the above statement.
+
+\bigskip
+\textbf{Base Cases:} \\
+Using our program, we have verified that $P(n)$ holds for
+$n \in \{0, 1, 2, 3\}$. \\
+The fact that $\game{0}{2}{0} \gcong *1$ will also be useful.
+
+\bigskip
+\textbf{Induction Hypothesis:} \\
+Assume for some $k \geq 1$ that 
+$\forall \: n < k, \: P(n) \: \text{holds}$.
+
+\bigskip
+\textbf{Induction Step:} \\
+We need to prove that $P(k)$ holds. In other words, we need to show:
+\begin{equation*}
+  \game{0}{6k + 8}{0} \gcong *1
+\end{equation*}
+
+\bigskip
+\textit{Simplifying the problem,}\\
+To show that $\game{0}{6k+8}{0}$ has nimber $1$, it suffices to show
+the following:
+\begin{enumerate}
+  \item In one move, we can reach a state with nimber $0$
+  \item In one move, we cannot reach a state with nimber $1$
+\end{enumerate}
+
+\bigskip
+\textit{Looking at the initial state's children,}\\
+Notice that in one move from the original state we can reach any state
+of the form:
+\begin{equation*}
+  \game{m}{6k+8-m}{0} \text{where} \: 1 \leq m \leq 3k + 4 
+  \end{equation*}
+the remaining states that we can reach from the original state are of
+the form:
+\begin{equation*}
+  \game{0}{6k+8-m}{m} \text{where} \: 1 \leq m \leq 3k + 4
+\end{equation*}
+Since the latter form is symmetric to the former, focusing our analysis
+on the former is enough to complete the proof.
+
+\bigskip
+\textit{When} $m = 3k + 4$:\\
+Observe that when $m = 3k + 4$, we obtain the state
+$\game{3k+4}{3k+4}{0}$ which clearly has nimber $0$,
+so we have proved the first fact we need. \\
+
+\bigskip
+\textit{When} $m$ \textit{is odd and} $1 \leq m \leq 2k + 2$:\\
+When $m$ is an odd number satisfying $1 \leq m \leq 2k + 2$,
+notice that
+\begin{equation*}
+  \game{m+1}{3k+4-\frac{m+1}{2}}{3k+4-\frac{m+1}{2}} \gcong *0
+\end{equation*}
+Work one step backwards from this to get
+\begin{equation*}
+  \game{m}{3k+5-\frac{m+1}{2}}{3k+4-\frac{m+1}{2}} \gcong *1
+\end{equation*}
+Observe that
+\begin{equation*}
+  \game{m}{6k+8-m}{0} \xrightarrow{\text{one move}}
+  \game{m}{3k+5-\frac{m+1}{2}}{3k+4-\frac{m+1}{2}}
+\end{equation*}
+It follows that the minimum excluded value of the nimbers of
+all the child states of $\game{m}{6k+8-m}{0}$ cannot be $1$, and
+thus the nimber of this state cannot be 1.
+
+\newpage
+\textit{When} $m$ \textit{is even and} $1 \leq m \leq 2k + 2$:\\
+When $m$ is an even number satisfying $1 \leq m \leq 2k + 2$,
+observe that 
+\begin{equation*}
+  \game{m}{6k+8-m}{0} \xrightarrow{\text{one move}}
+  \game{m}{6k+8-2m}{m}
+\end{equation*}
+We can replace $m$ with $2i$ where $1 \leq i \leq k + 1$ to get
+\begin{equation*}
+  \game{2i}{6k+8-2i}{0} \xrightarrow{\text{one move}}
+  \game{2i}{6k+8-4i}{2i}
+\end{equation*}
+In the resultant state, the difference between the left and middle
+values, also the difference between the right and middle values, is
+\begin{equation*}
+  6(k - i) + 8
+\end{equation*}
+Which intuitively suggests that
+\begin{equation*}
+  \game{2i}{6k+8-4i}{2i} \gcong \game{0}{6(k - i) + 8}{0} \:
+  \text{for $1 \leq i \leq k + 1$}
+\end{equation*}
+and although we lack a rigorous argument for this we will assume it is
+true. \\
+Our knowledge that $\game{0}{2}{0} \gcong *1$ and also our induction
+hypothesis, tell us:
+\begin{equation*}
+  \game{0}{6(k - i) + 8}{0} \gcong *1 \:
+  \text{for $1 \leq i \leq k + 1$}
+\end{equation*}
+Consequently, $\game{2i}{6k+8-4i}{2i} \gcong *1$. \\
+It follows that the minimum excluded value of the nimbers of
+all the child states of $\game{m}{6k+8-m}{0}$ cannot be $1$, and
+thus the nimber of this state cannot be 1.
+
+\bigskip
+\textit{When} $m \geq 2k + 3$:\\
+If $m \geq 2k + 3$, it is clear that
+\begin{equation*}
+  \game{m}{m}{6k+8-2m} \gcong *0
+\end{equation*}
+Working backwards from this, we get that
+\begin{equation*}
+  \game{m}{m+1}{6k+7-2m} \gcong *1
+\end{equation*}
+We know that
+\begin{equation*}
+  \game{m}{6k+8-m}{0} \xrightarrow{\text{one move}}
+  \game{m}{m+1}{6k+7-2m}
+\end{equation*}
+It follows that the minimum excluded value of the nimbers of
+all the child states of $\game{m}{6k+8-m}{0}$ cannot be $1$, and
+thus the nimber of this state cannot be 1.
+
+\bigskip
+\textit{Conclusion}:\\
+$1$ must be the mex of the nimbers of the children of $\game{0}{6k+8}{0}$,
+so we have proved that $\game{0}{6k+8}{0} \gcong *1$.
+\newpage
+
+\paragraph{Three Point Situation, 1-Position Proof, Case 6}\mbox{}\\
+Assume the same inductive `skeleton' and reasoning style as the previous case.
+This proof is mainly an illustration of the differences between the two cases:
+
+\bigskip
+Consider the initial position
+\begin{equation*}
+  \game{0}{6n+6}{0} \: \text{where} \: n \geq 0
+\end{equation*}
+
+\medskip
+The first move will take the initial position to a position of the form
+\begin{equation*}
+  \game{m}{6n+6-m}{0} \: \text{where} \: 1 \leq m \leq 3n+3
+\end{equation*}
+
+\bigskip
+\underline{If $m = 3n$:} \\
+This is the state $\game{3n}{3n}{0}$ which clearly has nimber $0$.
+
+\bigskip
+\underline{If $m \leq 2n + 2$ and $m$ is odd:} \\
+Then, consider the following move sequence,
+\begin{align*}
+  & \game{m}{6n+6-m}{0} \\
+  \xrightarrow{\text{one possible child}} \quad & 
+  \game{m}{3n+4-\frac{m+1}{2}}{3n+3-\frac{m+1}{2}} \\
+  \xrightarrow{\text{only child}} \quad & 
+  \game{m+1}{3n+3-\frac{m+1}{2}}{3n+3-\frac{m+1}{2}} \\
+\end{align*}
+
+\bigskip
+\underline{If $m \leq 2n + 2$ and $m$ is even:} \\
+Consider the following move sequence:
+\begin{align*}
+  & \game{m}{6n+6-m}{0} \\
+  \xrightarrow{\text{one possible child}} \quad & 
+  \game{m}{6n+6-2m}{m} \\
+  \cong \quad & 
+  \game{0}{6n+6-3m}{0} \\
+\end{align*}
+Since $m$ is even, we can write it as $2i$ for some $1\leq i\leq n+1$.
+\begin{align*}
+  & \game{0}{6n+6-3m}{0} \\
+  \cong \quad & \game{0}{6n+6-6i}{0} \\
+  \cong \quad & \game{0}{6(n-i)+6}{0} \\
+\end{align*}
+By our induction hypothesis, $\game{0}{6(n-i)+6}{0}$ has nimber $1$.
+
+\bigskip
+\underline{If $m \geq 2n + 3$:} \\
+The move sequence below works:
+\begin{align*}
+  & \game{m}{6n+6-m}{0} \\
+  \xrightarrow{\text{one possible child}} \quad & 
+  \game{m}{m+1}{6n+5-2m} \\
+  \xrightarrow{\text{only child}} \quad & 
+  \game{m}{m}{6n+6-2m} \\
+\end{align*}
+
+\bigskip
+Which provides us with everything we need to fill in the proof
+skeleton.
+\newpage
+
+\paragraph{Three Point Situation, 1-Position Proof, Case 10}\mbox{}\\
+Assume the same inductive `skeleton' and reasoning style as the previous case.
+This proof is mainly an illustration of the differences between the two cases:
+
+\bigskip
+Consider the initial position
+\begin{equation*}
+  \game{0}{6n+10}{0} \: \text{where} \: n \geq 0
+\end{equation*}
+
+\medskip
+The first move will take the initial position to a position of the form
+\begin{equation*}
+  \game{m}{6n+6-m}{0} \: \text{where} \: 1 \leq m \leq 3n+3
+\end{equation*}
+
+\bigskip
+\underline{If $m = 3n$:} \\
+This is the state $\game{3n}{3n}{0}$ which clearly has nimber $0$.
+
+\bigskip
+\underline{If $m \leq 2n + 3$ and $m$ is odd:} \\
+Then, consider the following move sequence,
+\begin{align*}
+  & \game{m}{6n+10-m}{0} \\
+  \xrightarrow{\text{one possible child}} \quad & 
+  \game{m}{3n+6-\frac{m+1}{2}}{3n+5-\frac{m+1}{2}} \\
+  \xrightarrow{\text{only child}} \quad & 
+  \game{m+1}{3n+5-\frac{m+1}{2}}{3n+5-\frac{m+1}{2}} \\
+\end{align*}
+
+\bigskip
+\underline{If $m \leq 2n + 3$ and $m$ is even:} \\
+Consider the following move sequence:
+\begin{align*}
+  & \game{m}{6n+10-m}{0} \\
+  \xrightarrow{\text{one possible child}} \quad & 
+  \game{m}{6n+10-2m}{m} \\
+  \cong \quad & 
+  \game{0}{6n+10-3m}{0} \\
+\end{align*}
+Since $m$ is even, we can write it as $2i$ for some $1\leq i\leq n+1$.
+\begin{align*}
+  & \game{0}{6n+10-3m}{0} \\
+  \cong \quad & \game{0}{6n+10-6i}{0} \\
+  \cong \quad & \game{0}{6(n-i)+10}{0} \\
+\end{align*}
+By our induction hypothesis, $\game{0}{6(n-i)+10}{0}$ has nimber $1$.
+
+\bigskip
+\underline{If $m \geq 2n + 4$:} \\
+The move sequence below works:
+\begin{align*}
+  & \game{m}{6n+10-m}{0} \\
+  \xrightarrow{\text{one possible child}} \quad & 
+  \game{m}{m+1}{6n+9-2m} \\
+  \xrightarrow{\text{only child}} \quad & 
+  \game{m}{m}{6n+10-2m} \\
+\end{align*}
+
+\bigskip
+Which provides us with everything we need to fill in the proof
+skeleton.
+\newpage
+
+\paragraph{Three Point Situation, 1-Position Proof, Case 7}\mbox{}\\
+Consider the initial position
+\begin{equation*}
+  \game{0}{6n+6}{0} \: \text{where} \: n \geq 0
+\end{equation*}
+
+\medskip
+The first move brings $\game{0}{6n+7}{0}$ to a state of the form
+$\game{m}{6n+7-m}{0}$, where $1 \leq m \leq 3n+3$. \\
+If $m = 3n + 3$,
+\begin{align*}
+  & \game{3n+3}{3n+4}{0} \\
+  \xrightarrow{\text{only child}} \quad & 
+  \game{3n+3}{3n+3}{1}
+\end{align*}
+
+\bigskip
+\underline{If $m \leq 2n + 2$ and $m$ is odd:} \\
+Then, consider the following move sequence,
+\begin{align*}
+  & \game{m}{6n+7-m}{0} \\
+  \xrightarrow{\text{one possible child}} \quad & 
+  \game{m}{\frac{6n+7-m}{2}}{\frac{6n+7-m}{2}}
+\end{align*}
+
+\bigskip
+\underline{If $m \leq 2n + 2$ and $m$ is even:} \\
+Consider the following move sequence:
+\begin{align*}
+  & \game{m}{6n+7-m}{0} \\
+  \xrightarrow{\text{one possible child}} \quad & 
+  \game{m}{6n+7-2m}{m} \\
+  \cong \quad & 
+  \game{0}{6n+7-3m}{0} \\
+\end{align*}
+Since $m$ is odd, we can write it as $2i$ for some $1\leq i\leq n+1$.
+\begin{align*}
+  & \game{0}{6n+7-3m}{0} \\
+  \cong \quad & \game{0}{6n+7-6i}{0} \\
+  \cong \quad & \game{0}{6(n-i)+7}{0} \\
+\end{align*}
+By our induction hypothesis, $\game{0}{6(n-i)+6}{0}$ has nimber $0$.
+
+\bigskip
+\underline{If $m \geq 2n + 3$:} \\
+The move sequence below works:
+\begin{align*}
+  & \game{m}{6n+7-m}{0} \\
+  \xrightarrow{\text{one possible child}} \quad & 
+  \game{m}{m}{6n+7-2m}
+\end{align*}
+
+\bigskip
+Which provides us with everything we need to fill in the proof
+skeleton.
+
+\paragraph{Three Point Situation, 1-Position Proof, Case 9}\mbox{}\\
+Consider the initial position
+\begin{equation*}
+  \game{0}{6n+6}{0} \: \text{where} \: n \geq 0
+\end{equation*}
+
+\medskip
+The first move brings $\game{0}{6n+7}{0}$ to a state of the form
+$\game{m}{6n+7-m}{0}$, where $1 \leq m \leq 3n+3$. \\
+If $m = 3n + 3$,
+\begin{align*}
+  & \game{3n+3}{3n+4}{0} \\
+  \xrightarrow{\text{only child}} \quad & 
+  \game{3n+3}{3n+3}{1}
+\end{align*}
+
+\bigskip
+\underline{If $m \leq 2n + 2$ and $m$ is odd:} \\
+Then, consider the following move sequence,
+\begin{align*}
+  & \game{m}{6n+7-m}{0} \\
+  \xrightarrow{\text{one possible child}} \quad & 
+  \game{m}{\frac{6n+7-m}{2}}{\frac{6n+7-m}{2}}
+\end{align*}
+
+\bigskip
+\underline{If $m \leq 2n + 2$ and $m$ is even:} \\
+Consider the following move sequence:
+\begin{align*}
+  & \game{m}{6n+7-m}{0} \\
+  \xrightarrow{\text{one possible child}} \quad & 
+  \game{m}{6n+7-2m}{m} \\
+  \cong \quad & 
+  \game{0}{6n+7-3m}{0} \\
+\end{align*}
+Since $m$ is odd, we can write it as $2i$ for some $1\leq i\leq n+1$.
+\begin{align*}
+  & \game{0}{6n+7-3m}{0} \\
+  \cong \quad & \game{0}{6n+7-6i}{0} \\
+  \cong \quad & \game{0}{6(n-i)+7}{0} \\
+\end{align*}
+By our induction hypothesis, $\game{0}{6(n-i)+6}{0}$ has nimber $0$.
+
+\bigskip
+\underline{If $m \geq 2n + 3$:} \\
+The move sequence below works:
+\begin{align*}
+  & \game{m}{6n+7-m}{0} \\
+  \xrightarrow{\text{one possible child}} \quad & 
+  \game{m}{m}{6n+7-2m}
+\end{align*}
+
+\bigskip
+Which provides us with everything we need to fill in the proof
+skeleton.
+
+\paragraph{Three Point Situation, 1-Position Proof, Case 11}\mbox{}\\
+Consider the initial position
+\begin{equation*}
+  \game{0}{6n+6}{0} \: \text{where} \: n \geq 0
+\end{equation*}
+
+\medskip
+The first move brings $\game{0}{6n+7}{0}$ to a state of the form
+$\game{m}{6n+7-m}{0}$, where $1 \leq m \leq 3n+3$. \\
+If $m = 3n + 3$,
+\begin{align*}
+  & \game{3n+3}{3n+4}{0} \\
+  \xrightarrow{\text{only child}} \quad & 
+  \game{3n+3}{3n+3}{1}
+\end{align*}
+
+\bigskip
+\underline{If $m \leq 2n + 2$ and $m$ is odd:} \\
+Then, consider the following move sequence,
+\begin{align*}
+  & \game{m}{6n+7-m}{0} \\
+  \xrightarrow{\text{one possible child}} \quad & 
+  \game{m}{\frac{6n+7-m}{2}}{\frac{6n+7-m}{2}}
+\end{align*}
+
+\bigskip
+\underline{If $m \leq 2n + 2$ and $m$ is even:} \\
+Consider the following move sequence:
+\begin{align*}
+  & \game{m}{6n+7-m}{0} \\
+  \xrightarrow{\text{one possible child}} \quad & 
+  \game{m}{6n+7-2m}{m} \\
+  \cong \quad & 
+  \game{0}{6n+7-3m}{0} \\
+\end{align*}
+Since $m$ is odd, we can write it as $2i$ for some $1\leq i\leq n+1$.
+\begin{align*}
+  & \game{0}{6n+7-3m}{0} \\
+  \cong \quad & \game{0}{6n+7-6i}{0} \\
+  \cong \quad & \game{0}{6(n-i)+7}{0} \\
+\end{align*}
+By our induction hypothesis, $\game{0}{6(n-i)+6}{0}$ has nimber $0$.
+
+\bigskip
+\underline{If $m \geq 2n + 3$:} \\
+The move sequence below works:
+\begin{align*}
+  & \game{m}{6n+7-m}{0} \\
+  \xrightarrow{\text{one possible child}} \quad & 
+  \game{m}{m}{6n+7-2m}
+\end{align*}
+
+\bigskip
+Which provides us with everything we need to fill in the proof
+skeleton.
+
+\end{document}

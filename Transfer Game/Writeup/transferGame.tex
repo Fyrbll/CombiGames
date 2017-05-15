@@ -1,0 +1,288 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, mathtools, verbatim}
+\usepackage[margin=0.5in]{geometry}
+\setlength{\parindent}{0pt}
+\renewcommand{\t}[1]{\text{#1}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\sumx}[2]{\sum\limits_{#1}^{#2}}
+\newcommand{\ord}{\text{ord}}
+\newcommand{\frp}{\text{FRP}}
+\newcommand{\R}{\Rightarrow\,}
+\newcommand{\B}[1]{\textbf{#1}}
+\newcommand{\I}{\bigcap}
+\newcommand{\U}{\bigcup}
+\newcommand{\V}{\vert}
+\newcommand{\F}[1]{\lfloor#1\rfloor}
+\newcommand{\C}[1]{\lceil#1\rceil}
+\renewcommand{\t}[1]{\text{#1}}
+\newcommand{\lra}[1]{\langle#1\rangle}
+\newcommand{\len}[1]{\vert#1\vert}
+\newcommand{\num}{\text{num}}
+\newcommand{\game}[3]{\begin{array}{@{}*6r}(#1, & #2, & #3)\end{array}}
+\newcommand{\gcong}{\cong\:}
+\begin{document}
+\begin{center}
+  21--499 \\
+  Kartik Sabharwal (ksabharw)
+\end{center}
+\paragraph{Describing the Game}\mbox{}\\
+This is a game for two players, who take turns making moves. \\
+We have two points $P_1$ and $P_2$ in a plane, connected by an edge. \\
+Conisder a function $s : \{P_1, P_2\} \rightarrow \N$. \\
+Initially, $s(P_1) \geq s(P_2)$. \\
+There are $s(P_1)$ stones at $P_1$ and $s(P_2)$ stones at $P_2$. \\
+A player can move stones from $P_1$ to $P_2$, but not from $P_2$ to $P_1$,
+but the invariant $s(P_1) \geq s(P_2)$ should always be maintained. \\
+If a player starts her turn with $s(P_1) = s(P_2)$, then she loses. \\
+What is the nimber of this game? \\
+It ought to be $\frac{s(P_1) - s(P_2)}{2}$.
+
+\paragraph{A Modified Version}\mbox{}\\
+Suppose that a few things change from before:
+\begin{enumerate}
+  \item Either $s(P_1) > s(P_2)$ or $s(P_2) > s(P_1)$ initially
+  \item We can move stones from $P_1$ to $P_2$ or $P_2$ to $P_1$
+  \item Suppose at the beginning of some turn, $\len{s(P_1)-s(P_2)} = d$, and
+    at the end of that turn $\len{s(P_1) - s(P_2)} = d'$. \\
+    Then it must be that $d' < d$.
+  \item If a player starts with $s(P_1) = s(P_2)$ then the player loses.
+\end{enumerate}
+How does that change the nimber of the game? \\
+If we start with $s(P_1) = 10$ and $s(P_2) = 5$ then $G \cong *2$. \\
+The nimber ought to be $\len{\frac{s(P_1) - s(P_2)}{2}}$.
+
+\paragraph{Three Points}\mbox{}\\
+Our point set $\mathbb{P}$ is now $\{P_1, P_2, P_3\}$, with directed edges
+$(P_1, P_2)$ and $(P_2, P_3)$. \\
+Start with the configuration $s(P_1) > s(P_2) > s(P_3)$. \\
+Maintain the following invariants:
+\begin{enumerate}
+  \item $s(P_1) \geq s(P_2)$
+  \item $s(P_2) \geq s(P_3)$
+\end{enumerate}
+If a player cannot make any moves, then the player loses. \\
+This means we can describe a game of this form with a tuple
+$(a,b,c)$ which means $s(P_1) = a, s(P_2) = b, s(P_3) = c$ initially. \\
+Examples:
+\begin{enumerate}
+  \item $(3, 2, 1) \cong *0$ 
+  \item $(3, 2, 2) \cong *0$
+  \item $(3, 3, 0) \cong *1$ 
+  \item $(3, 3, 1) \cong *1$
+  \item $(3, 3, 2) \cong *0$
+  \item $(4, 1, 1) \cong *1$ 
+  \item $(4, 2, 0) \cong *0$ 
+  \item $(4, 2, 1) \cong *0$
+  \item $(4, 2, 2) \cong *1$
+  \item $(4, 3, 0) \cong *1$
+  \item $(4, 3, 1) \cong *0$
+  \item $(4, 4, 0) \cong *2$
+  \item $(5, 1, 1) \cong *2$
+  \item $(5, 2, 0) \cong *0$
+  \item $(5, 2, 1) \cong *1$
+  \item $(5, 3, 0) \cong *0$
+  \item $(6, 1, 1) \cong *2$
+  \item $(6, 2, 0) \cong *1$
+\end{enumerate}
+\paragraph{A New Three Point Situation}\mbox{}\\
+The point set $\mathbb{P}$ is again $\{P_1, P_2, P_3\}$ where
+the directed edge set $\mathbb{E}$ is $\{(P_2, P_1), (P_2, P_3)\}$. \\
+The initial state is of the form $s(P_1) = 0, s(P_2) = n, s(P_3) = 0$. \\
+The rest of the rules are as before. \\
+What is the nimber for some given value of $n$? \\
+According to the program:
+\begin{itemize}
+  \item $(0, 1, 0) \cong *0$
+  \item $(0, 2, 0) \cong *1$
+  \item $(0, 3, 0) \cong *0$
+  \item $(0, 4, 0) \cong *2$
+  \item $(0, e, 0) \cong *1$ for $e = 2i$ where $i \in \N, i > 2$
+  \item $(0, o, 0) \cong *0$ for $o = 2i - 1$ where $i \in \N, i > 2$
+\end{itemize}
+
+\paragraph{A helpful identity to prove}\mbox{}\\
+\begin{equation*}
+  \game{l}{m}{r} \gcong \game{l + i}{m + i}{r + i}
+\end{equation*}
+
+\newpage
+\paragraph{Three Point Situation, 1-Position Proof, Case 8}\mbox{}\\
+We want to prove the following proposition:
+\begin{equation*}
+  P(n) : \game{0}{6n + 8}{0} \gcong *1 \enspace \text{where} \enspace n \geq 0
+\end{equation*}
+We will use strong induction to prove the above statement.
+
+\bigskip
+\textbf{Base Cases:} \\
+Using our program, we have verified that $P(n)$ holds for
+$n \in \{0, 1, 2, 3\}$. \\
+The fact that $\game{0}{2}{0} \gcong *1$ will also be useful.
+
+\bigskip
+\textbf{Induction Hypothesis:} \\
+Assume for some $k \geq 1$ that 
+$\forall \: n < k, \: P(n) \: \text{holds}$.
+
+\bigskip
+\textbf{Induction Step:} \\
+We need to prove that $P(k)$ holds. In other words, we need to show:
+\begin{equation*}
+  \game{0}{6k + 8}{0} \gcong *1
+\end{equation*}
+
+\bigskip
+\textit{Simplifying the problem,}\\
+To show that $\game{0}{6k+8}{0}$ has nimber $1$, it suffices to show
+the following:
+\begin{enumerate}
+  \item In one move, we can reach a state with nimber $0$
+  \item In one move, we cannot reach a state with nimber $1$
+\end{enumerate}
+
+\bigskip
+\textit{Looking at the initial state's children,}\\
+Notice that in one move from the original state we can reach any state
+of the form:
+\begin{equation*}
+  \game{m}{6k+8-m}{0} \text{where} \: 1 \leq m \leq 3k + 4 
+  \end{equation*}
+the remaining states that we can reach from the original state are of
+the form:
+\begin{equation*}
+  \game{0}{6k+8-m}{m} \text{where} \: 1 \leq m \leq 3k + 4
+\end{equation*}
+Since the latter form is symmetric to the former, focusing our analysis
+on the former is enough to complete the proof.
+
+\bigskip
+\textit{When} $m = 3k + 4$:\\
+Observe that when $m = 3k + 4$, we obtain the state
+$\game{3k+4}{3k+4}{0}$ which clearly has nimber $0$,
+so we have proved the first fact we need. \\
+
+\bigskip
+\textit{When} $m$ \textit{is odd and} $1 \leq m \leq 2k + 2$:\\
+When $m$ is an odd number satisfying $1 \leq m \leq 2k + 2$,
+notice that
+\begin{equation*}
+  \game{m+1}{3k+4-\frac{m+1}{2}}{3k+4-\frac{m+1}{2}} \gcong *0
+\end{equation*}
+Work one step backwards from this to get
+\begin{equation*}
+  \game{m}{3k+5-\frac{m+1}{2}}{3k+4-\frac{m+1}{2}} \gcong *1
+\end{equation*}
+Observe that
+\begin{equation*}
+  \game{m}{6k+8-m}{0} \xrightarrow{\text{one move}}
+  \game{m}{3k+5-\frac{m+1}{2}}{3k+4-\frac{m+1}{2}}
+\end{equation*}
+It follows that the minimum excluded value of the nimbers of
+all the child states of $\game{m}{6k+8-m}{0}$ cannot be $1$, and
+thus the nimber of this state cannot be 1.
+
+\newpage
+\textit{When} $m$ \textit{is even and} $1 \leq m \leq 2k + 2$:\\
+When $m$ is an even number satisfying $1 \leq m \leq 2k + 2$,
+observe that 
+\begin{equation*}
+  \game{m}{6k+8-m}{0} \xrightarrow{\text{one move}}
+  \game{m}{6k+8-2m}{m}
+\end{equation*}
+We can replace $m$ with $2i$ where $1 \leq i \leq k + 1$ to get
+\begin{equation*}
+  \game{2i}{6k+8-2i}{0} \xrightarrow{\text{one move}}
+  \game{2i}{6k+8-4i}{2i}
+\end{equation*}
+In the resultant state, the difference between the left and middle
+values, also the difference between the right and middle values, is
+\begin{equation*}
+  6(k - i) + 8
+\end{equation*}
+Which intuitively suggests that
+\begin{equation*}
+  \game{2i}{6k+8-4i}{2i} \gcong \game{0}{6(k - i) + 8}{0} \:
+  \text{for $1 \leq i \leq k + 1$}
+\end{equation*}
+and although we lack a rigorous argument for this we will assume it is
+true. \\
+Our knowledge that $\game{0}{2}{0} \gcong *1$ and also our induction
+hypothesis, tell us:
+\begin{equation*}
+  \game{0}{6(k - i) + 8}{0} \gcong *1 \:
+  \text{for $1 \leq i \leq k + 1$}
+\end{equation*}
+Consequently, $\game{2i}{6k+8-4i}{2i} \gcong *1$. \\
+It follows that the minimum excluded value of the nimbers of
+all the child states of $\game{m}{6k+8-m}{0}$ cannot be $1$, and
+thus the nimber of this state cannot be 1.
+
+\bigskip
+\textit{When} $m \geq 2k + 3$:\\
+If $m \geq 2k + 3$, it is clear that
+\begin{equation*}
+  \game{m}{m}{6k+8-2m} \gcong *0
+\end{equation*}
+Working backwards from this, we get that
+\begin{equation*}
+  \game{m}{m+1}{6k+7-2m} \gcong *1
+\end{equation*}
+We know that
+\begin{equation*}
+  \game{m}{6k+8-m}{0} \xrightarrow{\text{one move}}
+  \game{m}{m+1}{6k+7-2m}
+\end{equation*}
+It follows that the minimum excluded value of the nimbers of
+all the child states of $\game{m}{6k+8-m}{0}$ cannot be $1$, and
+thus the nimber of this state cannot be 1.
+
+\bigskip
+\textit{Conclusion}:\\
+$1$ must be the mex of the nimbers of the children of $\game{0}{6k+8}{0}$,
+so we have proved that $\game{0}{6k+8}{0} \gcong *1$.
+\newpage
+
+\paragraph{Three Point Situation, 1-Position Proof, Case 6} \\
+Assume the same inductive `skeleton' and reasoning style as the previous case.
+This proof is mainly an illustration of the differences between the two cases:
+
+\bigskip
+Consider the initial position
+\begin{equation*}
+  \game{0}{6n+6}{0} \: \text{where} \: n \geq 0
+\end{equation*}
+
+\medskip
+The first move will take the initial position to a position of the form
+\begin{equation*}
+  \game{m}{6n+6-m}{0} \: \text{where} \: 1 \leq m \leq 3n+3
+\end{equation*}
+
+\bigskip
+\underline{If $m = 3n$:} \\
+This is the state $\game{3n}{3n}{0}$ which clearly has nimber $0$.
+
+\bigskip
+\underline{If $m \leq 2n + 2$ and $m$ is odd:} \\
+Then, consider the following move sequence,
+\begin{align*}
+  & \game{m}{6n+6-m}{0} \\
+  \xrightarrow{\text{one possible child}} \quad & 
+  \game{m}{3n+4-\frac{m+1}{2}}{3n+3-\frac{m+1}{2}} \\
+  \xrightarrow{\text{only child}} \quad & 
+  \game{m+1}{3n+3-\frac{m+1}{2}}{3n+3-\frac{m+1}{2}} \\
+\end{align*}
+
+\bigskip
+\underline{If $m \leq 2n + 2$ and $m$ is even:} \\
+Stuff.
+
+\bigskip
+\underline{If $m \geq 2n + 3$:} \\
+Stuff.
+
+\bigskip
+Which provides us with everything we need to fill in the proof
+skeleton.
+\paragraph{Three Point Situation, 1-Position Proof, Case 10}
+\end{document}
